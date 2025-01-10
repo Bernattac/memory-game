@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const moveCounter = document.getElementById('move-counter');
   const pairsCounter = document.getElementById('pairs-counter');
   const timer = document.getElementById('timer-value');
+  const message = document.getElementById('message');
 
   let flippedCards = [];
   let moves = 0;
@@ -11,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let countdown;
   let difficulty = 'easy';
 
-  let cards = [
+  const cards = [
     { id: 0, character: 'Goku', imageFormat: 'jpg' },
     { id: 1, character: 'Vegeta', imageFormat: 'jpg' },
     { id: 2, character: 'Piccolo', imageFormat: 'png' },
@@ -56,37 +57,33 @@ document.addEventListener('DOMContentLoaded', function () {
     flippedCards = [];
     moves = 0;
     moveCounter.textContent = moves;
+
+    // Mostrar la informació del joc
+    document.querySelector('.game-info').style.display = 'block';
+
+    // Amagar els botons i començar el joc
+    document.querySelector('.game-settings').style.display = 'none';
+
     generateCards();
     createCardElements();
     startCountdown();
     showInitialCards();
+    message.classList.add('hidden');
   }
 
   function generateCards() {
-    characters = []; // Limpiamos las cartas previas
-    remainingPairs = 0;
-
-    let numberOfPairs = 4;
-
-    if (difficulty === 'medium') {
-      numberOfPairs = 6;
-    } else if (difficulty === 'hard') {
-      numberOfPairs = 8;
-    }
-
-    const selectedCards = cards.slice(0, numberOfPairs); // Seleccionamos solo las cartas necesarias
-    const shuffledCards = [...selectedCards, ...selectedCards]; // Creamos las parejas
-    shuffledCards.sort(() => Math.random() - 0.5); // Las mezclamos
-
-    remainingPairs = numberOfPairs;
-    pairsCounter.textContent = remainingPairs; // Mostramos el número de parejas
-
-    characters = shuffledCards; // Asignamos a la variable global
+    remainingPairs =
+      difficulty === 'easy' ? 4 : difficulty === 'medium' ? 6 : 8;
+    const selectedCards = cards.slice(0, remainingPairs);
+    const shuffledCards = [...selectedCards, ...selectedCards].sort(
+      () => Math.random() - 0.5
+    );
+    characters = shuffledCards;
+    pairsCounter.textContent = remainingPairs;
   }
 
   function createCardElements() {
-    gameBoard.innerHTML = ''; // Limpiamos el tablero
-
+    gameBoard.innerHTML = '';
     characters.forEach((characterObj) => {
       const cardElement = document.createElement('div');
       cardElement.className = 'card';
@@ -94,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const cardImage = document.createElement('img');
       cardImage.src = `img/${characterObj.character}.${characterObj.imageFormat}`;
-      cardImage.style.display = 'none'; // Ocultamos las imágenes inicialmente
+      cardImage.style.display = 'none';
       cardElement.appendChild(cardImage);
 
       cardElement.addEventListener('click', () => {
@@ -106,16 +103,15 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function flipCard(card) {
-    if (flippedCards.length >= 2 || card.classList.contains('flipped')) return; // Evitamos voltear más de dos
-
+    if (flippedCards.length >= 2 || card.classList.contains('flipped')) return;
     card.classList.add('flipped');
-    card.querySelector('img').style.display = 'block'; // Mostramos la imagen
+    card.querySelector('img').style.display = 'block';
     flippedCards.push(card);
     moves++;
     moveCounter.textContent = moves;
 
     if (flippedCards.length === 2) {
-      setTimeout(checkForMatch, 1000); // Comprobamos si hay match tras un breve retraso
+      setTimeout(checkForMatch, 1000);
     }
   }
 
@@ -130,8 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
       pairsCounter.textContent = remainingPairs;
 
       if (remainingPairs === 0) {
-        clearInterval(countdown); // Detenemos el tiempo
-        alert('¡Has ganado!');
+        endGame('You won!');
       }
     } else {
       setTimeout(() => {
@@ -142,13 +137,13 @@ document.addEventListener('DOMContentLoaded', function () {
         card2.querySelector('img').style.display = 'none';
 
         flippedCards = [];
-      }, 1000); // Ocultamos las cartas después de 1 segundo si no coinciden
+      }, 1000);
     }
   }
 
   function startCountdown() {
     clearInterval(countdown);
-    timeLeft = difficulty === 'easy' ? 60 : difficulty === 'medium' ? 45 : 30; // Ajustamos el tiempo según la dificultad
+    timeLeft = difficulty === 'easy' ? 60 : difficulty === 'medium' ? 45 : 30;
 
     countdown = setInterval(() => {
       timeLeft--;
@@ -156,9 +151,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (timeLeft <= 0) {
         clearInterval(countdown);
-        alert('¡Se acabó el tiempo!');
+        endGame('Time is up!');
       }
-    }, 1000); // Restamos un segundo en cada intervalo
+    }, 1000);
   }
 
   function showInitialCards() {
@@ -177,6 +172,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       },
       difficulty === 'easy' ? 2000 : 1000
-    ); // Mostramos las cartas por un tiempo corto
+    );
+  }
+
+  function endGame(messageText) {
+    clearInterval(countdown);
+    message.textContent = messageText;
+    message.classList.remove('hidden');
+
+    setTimeout(() => {
+      document.querySelector('.game-settings').style.display = 'block'; // Mostrar botons
+      document.querySelector('.game-board').innerHTML = ''; // Esborrar cartes
+      document.querySelector('.game-info').style.display = 'none'; // Amagar informació del joc
+      message.classList.add('hidden'); // Amagar missatge
+    }, 3000);
   }
 });

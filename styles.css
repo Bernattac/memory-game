@@ -1,7 +1,7 @@
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  background-color: #f0f0f0;
+  background-image: url('img/paisatge_HOME.jpg');
   margin: 0;
   padding: 0;
 }
@@ -11,7 +11,13 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  border-radius: 25px;
+  max-width: 90%;
+  margin: 80px auto;
+  background-color: #f0f0f0cc;
+  padding: 20px;
+  border: 1px solid gray;
+  box-shadow: 2px 1px 5px black;
 }
 
 .game-settings {
@@ -21,15 +27,18 @@ body {
 .difficulty-button {
   padding: 10px 20px;
   font-size: 18px;
-  background-color: #007bff;
+  background-color: #c9383b;
+  box-shadow: 2px 1px 5px black;
   color: white;
   border: none;
   cursor: pointer;
+  margin: 10px;
+  border-radius: 25px;
   transition: background-color 0.3s;
 }
 
 .difficulty-button:hover {
-  background-color: #0056b3;
+  background-color: #7badf8;
 }
 
 .game-board {
@@ -64,6 +73,20 @@ body {
 
 .game-info {
   font-size: 20px;
+}
+
+.message {
+  margin-top: 20px;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+}
+
+.hidden {
+  display: none;
 }
 
 .Goku {

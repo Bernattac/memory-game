@@ -1,30 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Juego de Memoria</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+    <title>Memory Game</title>
+  </head>
+  <body>
     <div class="game-container">
-        
-        <div class="game-settings">
-            <button class="difficulty-button" data-difficulty="easy">Nivel Fácil</button>
-            <button class="difficulty-button" data-difficulty="medium">Nivel Medio</button>
-            <button class="difficulty-button" data-difficulty="hard">Nivel Difícil</button>
-        </div>
-        
-        <div class="game-board"></div>
-        <div class="game-info">
-            <p>Movimientos: <span id="move-counter">0</span></p>
-            <p>Parejas restantes: <span id="pairs-counter">8</span></p>
-            <p id="timer">Tiempo restante: <span id="timer-value">60</span> segundos</p>
+      <div class="game-settings">
+        <button class="difficulty-button" data-difficulty="easy">
+          Easy Level
+        </button>
+        <button class="difficulty-button" data-difficulty="medium">
+          Medium Level
+        </button>
+        <button class="difficulty-button" data-difficulty="hard">
+          Difficult Level
+        </button>
+      </div>
 
-        </div>
+      <div class="game-board"></div>
+      <div class="game-info">
+        <p>Movements: <span id="move-counter">0</span></p>
+        <p>Remaining Couples: <span id="pairs-counter">0</span></p>
+        <p id="timer">
+          Time Remaining: <span id="timer-value">60</span> seconds
+        </p>
+      </div>
+      <div id="message" class="message hidden"></div>
     </div>
-
-    <script src="script.js"></script>
-</body>
+  </body>
 </html>
-
